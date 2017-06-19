@@ -1277,14 +1277,28 @@ public class WmsServlet extends HttpServlet {
             layerDetails.put("continuousZ", !discreteZ);
             JSONObject zAxisJson = new JSONObject();
             zAxisJson.put("units", verticalDomain.getVerticalCrs().getUnits());
+            zAxisJson.put("pressure", verticalDomain.getVerticalCrs().isPressure());
             zAxisJson.put("positive", verticalDomain.getVerticalCrs().isPositiveUpwards());
             if (verticalDomain instanceof VerticalAxis) {
                 /*
                  * We have discrete vertical axis values
                  */
                 VerticalAxis verticalAxis = (VerticalAxis) verticalDomain;
+                List<Double> sortedVals = new ArrayList<>(verticalAxis.getCoordinateValues());
+                /*
+                 * Sort the values smallest to largest.
+                 */
+                Collections.sort(sortedVals);
+                if(verticalAxis.getVerticalCrs().isPressure()
+                        || (sortedVals.get(0) < 0 && sortedVals.get(sortedVals.size()-1) < 0)) {
+                    /*
+                     * Largest to smallest if pressure, or all values are negative
+                     */
+                    Collections.reverse(sortedVals);
+                }
+
                 JSONArray zValuesJson = new JSONArray();
-                for (Double z : verticalAxis.getCoordinateValues()) {
+                for (Double z : sortedVals) {
                     zValuesJson.put(z);
                 }
                 zAxisJson.put("values", zValuesJson);
@@ -2009,7 +2023,7 @@ public class WmsServlet extends HttpServlet {
                         "Requested layer is either not present, disabled, or not yet loaded.");
             } catch (Exception e) {
                 throw new MetadataException(
-                        "You must specify either SLD, SLD_BODY or LAYERS and STYLES for a full legend.  You may set COLORBARONLY=true to just generate a colour bar");
+                        "You must specify either SLD, SLD_BODY, LAYERS and STYLES, or LAYER and STYLE for a full legend.  You may set COLORBARONLY=true to just generate a colour bar");
             }
             /*
              * Test whether we have categorical data - this will generate a

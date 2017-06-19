@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2013 The University of Reading
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -13,7 +13,7 @@
  * 3. Neither the name of the University of Reading, nor the names of the
  *    authors or contributors may be used to endorse or promote products
  *    derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -52,7 +52,7 @@ import uk.ac.rdg.resc.edal.util.Extents;
  * A class representing a variable in the XML config. This contains all of the
  * information needed to define the {@link EnhancedVariableMetadata} which
  * contains default plotting options etc.
- * 
+ *
  * @author Guy Griffiths
  */
 @XmlRootElement
@@ -192,6 +192,14 @@ public class VariableConfig implements EnhancedVariableMetadata {
         return dataset.getMoreInfo();
     }
 
+    public String getDatasetMetadataURL() {
+        return dataset.getDatasetMetadataURL();
+    }
+
+    public String getServiceMetadataURL() {
+        return dataset.getServiceMetadataURL();
+    }
+
     public void setId(String id) {
         this.id = id;
     }
@@ -230,7 +238,7 @@ public class VariableConfig implements EnhancedVariableMetadata {
     public void setScaling(String scaling) {
         if ((!scaling.equalsIgnoreCase("log") && !scaling.equalsIgnoreCase("logarithmic"))
                 || (colorScaleRange != null && colorScaleRange.getLow() > 0.0 && colorScaleRange
-                        .getHigh() > 0.0)) {
+                .getHigh() > 0.0)) {
             /*
              * We don't set the scaling to logarithmic if either scale bound is
              * less than zero

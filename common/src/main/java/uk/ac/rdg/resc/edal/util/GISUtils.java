@@ -1317,6 +1317,7 @@ public final class GISUtils implements ObjectFactory {
     }
 
     private static JdbcDataSource dataSource = new JdbcDataSource();
+    private static Connection conn;
     static {
         /*
          * Initialise the EPSG database if necessary
@@ -1339,7 +1340,7 @@ public final class GISUtils implements ObjectFactory {
             log.debug("Attempting to create EPSG datbase: " + dbUrl);
             dataSource.setURL(dbUrl);
 
-            Connection conn = dataSource.getConnection();
+            conn = dataSource.getConnection();
             conn.setAutoCommit(true);
 
             log.debug("EPSG database created successfully");
@@ -1391,6 +1392,14 @@ public final class GISUtils implements ObjectFactory {
         } catch (Exception e) {
             e.printStackTrace();
             log.error("Problem creating EPSG database.  Reprojection will not work", e);
+        }
+    }
+
+    public static void releaseEpsgDatabase() {
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            log.error("Problem closing EPSG database", e);
         }
     }
 

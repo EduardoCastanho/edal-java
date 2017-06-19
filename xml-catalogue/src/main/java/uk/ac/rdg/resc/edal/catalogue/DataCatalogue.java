@@ -29,6 +29,7 @@
 package uk.ac.rdg.resc.edal.catalogue;
 
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -37,21 +38,23 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.lang.management.ManagementFactory;
+
 import javax.management.MBeanServer;
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
-import net.sf.ehcache.config.Configuration;
 import net.sf.ehcache.config.CacheConfiguration;
+import net.sf.ehcache.config.CacheConfiguration.TransactionalMode;
+import net.sf.ehcache.config.Configuration;
 import net.sf.ehcache.config.MemoryUnit;
 import net.sf.ehcache.config.PersistenceConfiguration;
-import net.sf.ehcache.config.CacheConfiguration.TransactionalMode;
 import net.sf.ehcache.config.PersistenceConfiguration.Strategy;
 import net.sf.ehcache.config.SizeOfPolicyConfiguration;
-import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
 import net.sf.ehcache.management.ManagementService;
+import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
 
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -102,6 +105,7 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
     protected static CacheManager cacheManager;
     private Cache featureCache = null;
     private static MBeanServer mBeanServer;
+    private static ObjectName cacheManagerObjectName;
 
     protected final CatalogueConfig config;
     protected Map<String, Dataset> datasets;
@@ -197,7 +201,16 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
          * Used to gather statistics about Ehcache
          */
         mBeanServer = ManagementFactory.getPlatformMBeanServer();
-        ManagementService.registerMBeans(cacheManager, mBeanServer, true, true, true, true);
+        try {
+            cacheManagerObjectName = new ObjectName("net.sf.ehcache:type=CacheManager,name="
+                            + cacheManager.getName());
+        } catch (MalformedObjectNameException e) {
+            throw new EdalException("unable to form cacheManager ObjectName", e);
+        }
+
+        if (!mBeanServer.isRegistered(cacheManagerObjectName)){
+            ManagementService.registerMBeans(cacheManager, mBeanServer, true, true, true, true);
+        }
     }
 
     public CatalogueConfig getConfig() {

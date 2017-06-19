@@ -129,6 +129,12 @@ public class DatasetConfig {
     @XmlAttribute(name = "metadataMimetype")
     private String metadataMimetype = null;
 
+    @XmlAttribute(name= "datasetMetadataURL")
+    private String datasetMetadataURL= "";
+
+    @XmlAttribute(name= "serviceMetadataURL")
+    private String serviceMetadataURL= "";
+
     /*
      * The VariableConfigs are part of the XML definition, but the annotations
      * are on the setter, so that we can set each one's DatasetConfig to this
@@ -235,8 +241,9 @@ public class DatasetConfig {
         }
     }
 
-    public void createDataset(DatasetStorage datasetStorage, boolean forceRefresh) throws InstantiationException,
-            IllegalAccessException, ClassNotFoundException, IOException, EdalException {
+    public void createDataset(DatasetStorage datasetStorage, boolean forceRefresh)
+            throws InstantiationException, IllegalAccessException, ClassNotFoundException,
+            IOException, EdalException {
         loadingProgress.add("Starting loading");
 
         /*
@@ -278,10 +285,10 @@ public class DatasetConfig {
                  */
                 Extent<Float> colorScaleRange = GraphicsUtils.estimateValueRange(dataset, varId);
                 VariableMetadata variableMetadata = dataset.getVariableMetadata(varId);
-                VariableConfig variable = new VariableConfig(varId, varId, variableMetadata
-                        .getParameter().getDescription(), colorScaleRange,
-                        ColourPalette.DEFAULT_PALETTE_NAME, Color.black, Color.black, new Color(0,
-                                true), "linear", ColourPalette.MAX_NUM_COLOURS);
+                VariableConfig variable = new VariableConfig(varId, variableMetadata.getParameter()
+                        .getTitle(), variableMetadata.getParameter().getDescription(),
+                        colorScaleRange, ColourPalette.DEFAULT_PALETTE_NAME, Color.black,
+                        Color.black, new Color(0, true), "linear", ColourPalette.MAX_NUM_COLOURS);
                 variable.setParentDataset(this);
                 variables.put(varId, variable);
             }
@@ -612,6 +619,22 @@ public class DatasetConfig {
         }
         return sb.substring(0, sb.length() - 2) + "\n";
 
+    }
+
+    public String getDatasetMetadataURL() {
+        return datasetMetadataURL;
+    }
+
+    public void setDatasetMetadataURL(String datasetMetadataURL) {
+        this.datasetMetadataURL = datasetMetadataURL;
+    }
+
+    public String getServiceMetadataURL() {
+        return serviceMetadataURL;
+    }
+
+    public void setServiceMetadataURL(String serviceMetadataURL) {
+        this.serviceMetadataURL = serviceMetadataURL;
     }
 
     /**
