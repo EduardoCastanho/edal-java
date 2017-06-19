@@ -122,7 +122,7 @@ public class LayerDetails {
     public String getZUnits() {
         return zUnits;
     }
-
+    
     public boolean isPressure() {
         return pressure;
     }
@@ -214,7 +214,7 @@ public class LayerDetails {
     public void setIsPressure(boolean pressure) {
         this.pressure = pressure;
     }
-
+    
     public void setZPositive(boolean zPositive) {
         this.zPositive = zPositive;
     }

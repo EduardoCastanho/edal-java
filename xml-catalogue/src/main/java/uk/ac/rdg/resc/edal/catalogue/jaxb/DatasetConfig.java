@@ -599,7 +599,7 @@ public class DatasetConfig {
     public DateTime getLastUpdateTime() {
         return lastSuccessfulUpdateTime;
     }
-    
+
     public void setLastSuccessfulUpdateTime(DateTime lastSuccessfulUpdateTime) {
         this.lastSuccessfulUpdateTime = lastSuccessfulUpdateTime;
     }

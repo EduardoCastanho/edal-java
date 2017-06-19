@@ -1296,7 +1296,7 @@ public class WmsServlet extends HttpServlet {
                      */
                     Collections.reverse(sortedVals);
                 }
-
+                
                 JSONArray zValuesJson = new JSONArray();
                 for (Double z : sortedVals) {
                     zValuesJson.put(z);

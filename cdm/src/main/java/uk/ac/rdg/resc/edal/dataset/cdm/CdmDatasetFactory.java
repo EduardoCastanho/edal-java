@@ -423,9 +423,9 @@ public abstract class CdmDatasetFactory extends DatasetFactory {
      *         This name will be, in order of preference:
      * 
      *         The long name
-     *
+     * 
      *         The standard name
-     *
+     * 
      *         The variable name
      */
     protected static String getVariableName(Variable var) {

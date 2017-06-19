@@ -1394,7 +1394,7 @@ public final class GISUtils implements ObjectFactory {
             log.error("Problem creating EPSG database.  Reprojection will not work", e);
         }
     }
-
+    
     public static void releaseEpsgDatabase() {
         try {
             conn.close();
@@ -1402,7 +1402,7 @@ public final class GISUtils implements ObjectFactory {
             log.error("Problem closing EPSG database", e);
         }
     }
-
+    
     public static boolean isPressureUnits(String units) {
         if (units.equalsIgnoreCase("bar") || units.equalsIgnoreCase("standard_atmosphere")
                 || units.equalsIgnoreCase("technical_atmosphere")
