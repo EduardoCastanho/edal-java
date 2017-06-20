@@ -192,10 +192,12 @@ public class VariableConfig implements EnhancedVariableMetadata {
         return dataset.getMoreInfo();
     }
 
+    @Override
     public String getDatasetMetadataURL() {
         return dataset.getDatasetMetadataURL();
     }
 
+    @Override
     public String getServiceMetadataURL() {
         return dataset.getServiceMetadataURL();
     }

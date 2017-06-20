@@ -87,4 +87,8 @@ public interface EnhancedVariableMetadata {
      * @return Whether this layer is disabled
      */
     public boolean isDisabled();
+
+    public String getDatasetMetadataURL();
+
+    public String getServiceMetadataURL();
 }

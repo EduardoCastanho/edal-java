@@ -76,7 +76,7 @@
         </Exception>
         <inspire_vs:ExtendedCapabilities>
             <inspire_common:MetadataUrl xsi:type="inspire_common:resourceLocatorType">
-                <inspire_common:URL>http://maps.ipma.pt/metadata/wms_ncwms.xml</inspire_common:URL>
+                <inspire_common:URL>$!inspireServiceMetadataURL</inspire_common:URL>
                 <inspire_common:MediaType>application/vnd.iso.19139+xml</inspire_common:MediaType>
             </inspire_common:MetadataUrl>
             <inspire_common:SupportedLanguages>

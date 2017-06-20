@@ -78,4 +78,9 @@ public interface ServerInfo {
      *         be generated for all datasets
      */
     public abstract boolean allowsGlobalCapabilities();
+
+    /**
+     * @return The url for accessing to INSPIRE compliant service Metadata
+     */
+    public abstract String getInspireServiceMetadataURL();
 }
